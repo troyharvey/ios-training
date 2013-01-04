@@ -17,12 +17,26 @@
 @implementation CalculatorViewController
 
 @synthesize display = _display;
+@synthesize brainDisplay = _brainDisplay;
 @synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
 @synthesize brain = _brain;
 
 - (CalculatorBrain *)brain {
     if (!_brain) _brain = [[CalculatorBrain alloc] init];
     return _brain;
+}
+
+- (void)appendToBrainDisplay:(NSString *)token {
+    
+    // Only show 40 characters in the display
+    if (self.brainDisplay.text.length > 40) {
+        self.brainDisplay.text = [self.brainDisplay.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+        NSRange firstSpace = [self.brainDisplay.text rangeOfString: @" "];
+        if(firstSpace.location != NSNotFound) {
+            self.brainDisplay.text = [self.brainDisplay.text substringFromIndex: firstSpace.location];
+        }
+    }
+    self.brainDisplay.text = [self.brainDisplay.text stringByAppendingFormat: @" %@", token];
 }
 
 - (IBAction)digitPressed:(UIButton *)sender {
@@ -39,8 +53,9 @@
     // Only add the display value once
     if (self.userIsInTheMiddleOfEnteringANumber) {
         [self.brain pushOperand:[self.display.text doubleValue]];
-        self.userIsInTheMiddleOfEnteringANumber = NO;
         NSLog(@"%@", self.brain);
+        self.userIsInTheMiddleOfEnteringANumber = NO;
+        [self appendToBrainDisplay: self.display.text];
     }
 }
 
@@ -50,6 +65,7 @@
     double result = [self.brain performOperation:sender.currentTitle];
     NSString *resultString = [NSString stringWithFormat:@"%g", result];
     self.display.text = resultString;
+    [self appendToBrainDisplay: sender.currentTitle];
 }
 
 - (IBAction)periodPressed:(UIButton *)sender {
