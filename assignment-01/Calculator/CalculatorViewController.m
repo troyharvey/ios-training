@@ -42,7 +42,7 @@
 - (IBAction)clearPressed:(id)sender {
     [self.brain clear];
     self.brainDisplay.text = @"";
-    self.display.text = @"0";
+    self.display.text = @"";
 }
 
 - (IBAction)digitPressed:(UIButton *)sender {
