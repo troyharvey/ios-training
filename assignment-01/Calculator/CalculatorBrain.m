@@ -16,6 +16,11 @@
 
 @synthesize operandStack = _operandStack;
 
+- (void)clear {
+    [self.operandStack removeAllObjects];
+    return;
+}
+
 - (NSMutableArray *)operandStack {
     if (_operandStack == nil) _operandStack = [[NSMutableArray alloc] init];
     return _operandStack;
@@ -32,6 +37,7 @@
     }
     return [operandObject doubleValue];
 }
+
 - (double)performOperation:(NSString *)operation {
     double result = 0;
     
@@ -56,6 +62,7 @@
     [self pushOperand:result];
     return result;
 }
+
 - (NSString *)description {
     NSString *description = [NSString stringWithFormat: @"CalculatorBrain.operandStack "];
     for (NSString *operand in self.operandStack) {

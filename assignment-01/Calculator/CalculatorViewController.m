@@ -39,6 +39,12 @@
     self.brainDisplay.text = [self.brainDisplay.text stringByAppendingFormat: @" %@", token];
 }
 
+- (IBAction)clearPressed:(id)sender {
+    [self.brain clear];
+    self.brainDisplay.text = @"";
+    self.display.text = @"0";
+}
+
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = sender.currentTitle;
     
@@ -49,6 +55,7 @@
         self.userIsInTheMiddleOfEnteringANumber = YES;
     }
 }
+
 - (IBAction)enterPressed {
     // Only add the display value once
     if (self.userIsInTheMiddleOfEnteringANumber) {
@@ -80,6 +87,7 @@
         self.display.text = [self.display.text stringByAppendingString: @"."];
     }
 }
+
 - (IBAction)piPressed:(UIButton *)sender {
     if (self.userIsInTheMiddleOfEnteringANumber == NO) {
         self.display.text = @"3.1415926";
